@@ -1,5 +1,5 @@
 /* Global Variables */
-let weatherApiKey = "f7bfc3234b1cee0b3c125998becd5315";
+let weatherApiKey = "f7bfc3234b1cee0b3c125998...";
 let weatherLocation = "London";
 const weatherApiUrl = 'https://api.openweathermap.org/data/2.5/weather'
 const newAnimal = document.getElementById("animal").value;
