@@ -1,6 +1,7 @@
 /* Global Variables */
-let baseUrl = "http://api.animalinfo.org/data/animals"
-let apiKey = "abc123..."
+let weatherApiKey = "f7bfc3234b1cee0b3c125998becd5315";
+let weatherLocation = "London";
+const weatherApiUrl = 'https://api.openweathermap.org/data/2.5/weather'
 const newAnimal = document.getElementById("animal").value;
 
 // Create a new date instance dynamically with JS
@@ -14,6 +15,8 @@ function performAction(event) {
 
     const newAnimal = document.getElementById("animal").value;
     const favoriteFact = document.getElementById("favorite").value;
+
+    getCurrentWeather(weatherApiUrl, weatherApiKey, weatherLocation);
 
     getAnimal('/fakeAnimalData')
     // this is new
@@ -56,6 +59,22 @@ const updateUI = async() => {
         console.log("Error: ", error);
     }
 };
+
+const getCurrentWeather = async (weatherApiUrl, weatherApiKey, weatherLocation) => {
+
+    const urlExtension = `?q=${weatherLocation}&units=metric&appid=${weatherApiKey}`;
+    const weatherFetchUrl = weatherApiUrl+urlExtension;
+
+    const weatherResult = await fetch(weatherFetchUrl);
+
+    try {
+        const weatherData = await weatherResult.json();
+        console.log(weatherData);
+        return weatherData;
+    } catch(error) {
+        console.log("Weather GET Error: ", error);
+    }
+}
 
 const getAnimal = async (url) => {
     // 1.
