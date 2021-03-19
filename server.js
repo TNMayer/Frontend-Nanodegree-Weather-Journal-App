@@ -1,6 +1,5 @@
 /* Empty JS object to act as endpoint for all routes */
-projectData = {};
-let animalData = [];
+let weatherUserData = [];
 
 /* Express to run server and routes */
 const express = require('express');
@@ -23,7 +22,6 @@ const port = 3000;
 /* Spin up the server*/
 const server = app.listen(port, listening);
 function listening(){
-  // console.log(server);
   console.log(`running on localhost: ${port}`);
 };
 
@@ -34,29 +32,30 @@ const fakeData = {
 }
 
 // GET Routes
-app.get('/fakeAnimalData', getFakeData);
-
-function getFakeData(request, response) {
-  response.send(fakeData);
-}
-
 app.get('/all', getAllData);
 
 function getAllData(request, response) {
-  console.log(animalData);
-  response.send(animalData);
+  console.log(weatherUserData);
+  response.send(weatherUserData);
 }
 
-// POST Route
-app.post('/addAnimal', addAnimal);
+// POST Route Weather
+app.post('/addWeatherUserData', addWeatherUserData);
 
-function addAnimal(request, response) {
+function addWeatherUserData(request, response) {
   newEntry = {
-    animal: request.body.animal,
-    fact: request.body.fact,
-    favFact: request.body.favFact
-  }
+    cod: request.body.cod,
+    date: request.body.date,
+    coord: request.body.coord,
+    weather: request.body.weather,
+    main: request.body.main,
+    visibility: request.body.visibility,
+    wind: request.body.wind,
+    sys: request.body.sys,
+    userZip: request.body.userZip,
+    userFeelings: request.body.userFeelings
+  };
 
-  animalData.push(newEntry);
-  response.send(animalData);
+  weatherUserData.unshift(newEntry);
+  response.send(weatherUserData);
 }
