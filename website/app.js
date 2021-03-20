@@ -11,7 +11,7 @@ document.getElementById("generate").addEventListener("click", performAction);
 function performAction(event) {
     event.preventDefault();
 
-    getUserWeather(weatherApiUrl, weatherApiKey)
+    getUserWeatherData(weatherApiUrl, weatherApiKey)
         .then(function(data) {
             try {
                 let outData = postData("/addWeatherUserData", data);
@@ -31,17 +31,20 @@ const updateUI = async() => {
     try {
         const weatherUserData = await request.json();
         const dateBox = document.getElementById("date");
+        const cityBox = document.getElementById("city");
         const temperatureBox = document.getElementById("temp");
         const contentBox = document.getElementById("content");
         
-        if (weatherUserData[0].cod === "400") {
-            dateBox.innerHTML = weatherUserData[0].date;
-            temperatureBox.innerHTML = "No weather data retrieved from endpoint <br> Please make sure to provide a valid Zip Code (e.g. 10001,US)";;
-            contentBox.innerHTML = weatherUserData[0].userFeelings;
+        if (parseInt(weatherUserData[0].cod, 10) >= 400) {
+            dateBox.innerHTML = "Date: " + weatherUserData[0].date;
+            cityBox.innerHTML = "";
+            temperatureBox.innerHTML = "No weather data retrieved from endpoint. Please make sure to provide a valid Zip Code (e.g. 10001,US)";;
+            contentBox.innerHTML = "Feelings: " + weatherUserData[0].userFeelings;
         } else {
-            dateBox.innerHTML = weatherUserData[0].date;
-            temperatureBox.innerHTML = weatherUserData[0].main.temp + "°C";
-            contentBox.innerHTML = weatherUserData[0].userFeelings;
+            dateBox.innerHTML = "Date: " + weatherUserData[0].date;
+            cityBox.innerHTML = "City: " + weatherUserData[0].city;
+            temperatureBox.innerHTML = "Temperature: " + weatherUserData[0].main.temp + "°C";
+            contentBox.innerHTML = "Feelings: " + weatherUserData[0].userFeelings;
         }
     
     } catch(error) {
@@ -49,9 +52,9 @@ const updateUI = async() => {
     }
 };
 
-const getUserWeather = async (weatherApiUrl, weatherApiKey) => {
+const getUserWeatherData = async (weatherApiUrl, weatherApiKey) => {
 
-    const userZip = document.getElementById("zip").value;
+    const userZip = cleanZip(document.getElementById("zip").value);
     const userFeelings = document.getElementById("feelings").value;
     const urlExtension = `?zip=${userZip}&units=metric&appid=${weatherApiKey}`;
     const weatherFetchUrl = weatherApiUrl+urlExtension;
@@ -71,8 +74,11 @@ const getUserWeather = async (weatherApiUrl, weatherApiKey) => {
             wind: weatherData.wind,
             sys: weatherData.sys,
             userZip: userZip,
-            userFeelings: userFeelings
+            userFeelings: userFeelings,
+            city: weatherData.name
         };
+
+        console.log(outData);
 
         return outData;
     } catch(error) {
@@ -93,8 +99,18 @@ const postData = async (url = "", data = {}) => {
 
     try {
         const newData = await response.json();
-        return newData
+        return newData;
     } catch(error) {
         console.log("Error: ", error);
     }
 };
+
+function cleanZip(zipCode) {
+    if (zipCode.includes(",")) {
+        zipCode = zipCode.replaceAll(/\s/g,'');
+        return zipCode;
+    } else {
+        zipCode = zipCode + ',US';
+        return zipCode;
+    }
+}

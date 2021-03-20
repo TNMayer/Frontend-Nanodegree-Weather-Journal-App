@@ -53,7 +53,8 @@ function addWeatherUserData(request, response) {
     wind: request.body.wind,
     sys: request.body.sys,
     userZip: request.body.userZip,
-    userFeelings: request.body.userFeelings
+    userFeelings: request.body.userFeelings,
+    city: request.body.city
   };
 
   weatherUserData.unshift(newEntry);
