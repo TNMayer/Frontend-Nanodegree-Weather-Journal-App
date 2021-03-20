@@ -1,4 +1,9 @@
-/* Empty JS object to act as endpoint for all routes */
+/* 
+Empty JS object to act as endpoint for all routes.
+Holds the data from most recent POST request.
+*/
+let projectData = {};
+// stores all data entries and requests
 let weatherUserData = [];
 
 /* Express to run server and routes */
@@ -9,6 +14,7 @@ const app = express();
 
 /* Dependencies */
 const bodyParser = require('body-parser')
+
 /* Middleware*/
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -25,18 +31,12 @@ function listening(){
   console.log(`running on localhost: ${port}`);
 };
 
-// Dummy API Endpoint
-const fakeData = {
-  animal: 'lion',
-  fact: 'lions are sweet'
-}
-
 // GET Routes
 app.get('/all', getAllData);
 
 function getAllData(request, response) {
-  console.log(weatherUserData);
-  response.send(weatherUserData);
+  console.log(projectData);
+  response.send(projectData);
 }
 
 // POST Route Weather
@@ -57,6 +57,7 @@ function addWeatherUserData(request, response) {
     city: request.body.city
   };
 
+  projectData = newEntry;
   weatherUserData.unshift(newEntry);
-  response.send(weatherUserData);
+  response.send(projectData);
 }

@@ -35,16 +35,16 @@ const updateUI = async() => {
         const temperatureBox = document.getElementById("temp");
         const contentBox = document.getElementById("content");
         
-        if (parseInt(weatherUserData[0].cod, 10) >= 400) {
-            dateBox.innerHTML = "Date: " + weatherUserData[0].date;
+        if (parseInt(weatherUserData.cod, 10) >= 400) {
+            dateBox.innerHTML = "Date: " + weatherUserData.date;
             cityBox.innerHTML = "";
             temperatureBox.innerHTML = "No weather data retrieved from endpoint. Please make sure to provide a valid Zip Code (e.g. 10001,US)";;
-            contentBox.innerHTML = "Feelings: " + weatherUserData[0].userFeelings;
+            contentBox.innerHTML = "Feelings: " + weatherUserData.userFeelings;
         } else {
-            dateBox.innerHTML = "Date: " + weatherUserData[0].date;
-            cityBox.innerHTML = "City: " + weatherUserData[0].city;
-            temperatureBox.innerHTML = "Temperature: " + weatherUserData[0].main.temp + "°C";
-            contentBox.innerHTML = "Feelings: " + weatherUserData[0].userFeelings;
+            dateBox.innerHTML = "Date: " + weatherUserData.date;
+            cityBox.innerHTML = "City: " + weatherUserData.city;
+            temperatureBox.innerHTML = "Temperature: " + weatherUserData.main.temp + "°C";
+            contentBox.innerHTML = "Feelings: " + weatherUserData.userFeelings;
         }
     
     } catch(error) {
@@ -84,7 +84,7 @@ const getUserWeatherData = async (weatherApiUrl, weatherApiKey) => {
     } catch(error) {
         console.log("Weather GET Error: ", error);
     }
-}
+};
 
 const postData = async (url = "", data = {}) => {
 
