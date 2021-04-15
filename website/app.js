@@ -1,5 +1,5 @@
 /* Global Variables */
-let weatherApiKey = "f7bfc3234b1cee0b3c125998becd5315";
+let weatherApiKey = "f7bfc3234b1c...";
 const weatherApiUrl = 'https://api.openweathermap.org/data/2.5/weather';
 
 // Create a new date instance dynamically with JS
